@@ -29,7 +29,7 @@ pub fn (m Matrix) copy() Matrix {
 	return generate_matrix(r,c,mx)
 }
 
-pub fn fill_matrix(rows ...[]f64) Matrix {
+pub fn fill_matrix(rows ...[]f64) !Matrix {
 	mut r := 0
 	mut c := 0
 	mut wc := 0
@@ -39,13 +39,13 @@ pub fn fill_matrix(rows ...[]f64) Matrix {
 		mx << row
 		r++
 		c = row.len
-		if wc == 0 {
+		if row.len != 0 && wc == 0 {
 			wc = c
 		}
 
-		// if wc != c {
-		// 	return error("Column len varies")
-		// }
+		if wc != c {
+			return error("Column len varies")
+		}
 	}
 
 	return generate_matrix(r, c, mx)
@@ -94,9 +94,9 @@ pub fn (m Matrix) print() {
 	}
 }
 
-pub fn mul(mo Matrix, mt Matrix) Matrix {
+pub fn mul(mo Matrix, mt Matrix) !Matrix {
 	if mo.cols != mt.rows {
-		//error
+		return error("Matrices cannot be multiplied. Incorrent Dimensions.")
 	}
 
 	mut rows := mo.rows
@@ -145,10 +145,10 @@ pub fn (mut m Matrix) set_value(row int, col int, value f64) {
 	m.mat[row][col] = value
 }
 
-pub fn (mut m Matrix) determinant() f64 {
-	// if m.rows != m.cols {
-	// 	// errror
-	// }
+pub fn (m Matrix) determinant() !f64 {
+	if m.rows != m.cols {
+		return error("Matrix was not square.")
+	}
 
 	n := m.rows
 
@@ -175,4 +175,61 @@ pub fn (mut m Matrix) determinant() f64 {
 	return product
 }
 
+pub fn invert_matrix(m Matrix) !Matrix {
+	if m.rows != m.cols {
+		return error("Matrix is not square")
+	}
+	if m.determinant()! == 0.0 {
+		return error("Matrix is singular")
+	}
 
+	mut n := m.rows
+	mut am := m.copy()
+	mut id := identity(n)
+	mut im := id.copy()
+
+	mut indices := []int
+	for i in 0..n {
+		indices << i
+	}
+
+	for fd in 0..n {
+		mut fd_scaler := 1.0 / am.mat[fd][fd]
+		for j in 0..n {
+			am.mat[fd][j] *= fd_scaler
+			im.mat[fd][j] *= fd_scaler
+		}
+
+		for i in 0..indices.len {
+			if i != fd {
+				mut cr_scaler := am.mat[i][fd]
+
+				for j in 0..n {
+					am.mat[i][j] = am.mat[i][j] - cr_scaler * am.mat[fd][j]
+					im.mat[i][j] = im.mat[i][j] - cr_scaler * im.mat[fd][j]
+				}
+			}
+		}
+	}
+
+	return im
+
+}
+
+pub fn (mut m Matrix) add(mo Matrix) ! {
+	if mo.rows != m.rows || mo.cols != m.cols {
+		return error("Matrices have different Dimensions")
+	}
+
+	for i in 0..m.rows {
+		for j in 0..m.cols {
+			m.mat[i][j] += mo.mat[i][j]
+		}
+	}
+}
+
+pub fn add(mo Matrix, mt Matrix) !Matrix {
+	mut cmo := mo.copy()
+	cmo.add(mt)!
+	return cmo
+}

@@ -4,13 +4,13 @@ import numv
 
 mut a := [1.0,2.0]
 mut b := [3.0,4.0]
-mut m := numv.fill_matrix(a,b)
+mut m := numv.fill_matrix(a,b)!
 
 mut c := [1.0,2.0]
 mut d := [3.0,4.0]
-mut n := numv.fill_matrix(c,d)
+mut n := numv.fill_matrix(c,d)!
 
-mut p := numv.mul(m,n)
+mut p := numv.mul(m,n)!
 
 p.print()
 
@@ -22,6 +22,10 @@ m.print()
 
 println("")
 
-print(m.determinant())
+print(m.determinant()!)
 
 println("")
+
+mut mi := numv.invert_matrix(m)!
+
+mi.print()
