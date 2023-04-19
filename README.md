@@ -15,10 +15,13 @@ Currently Matrix supports:
 [x] Matrix Multiplication
 [x] An Apply Function
 [x] Getting Matrix Determinant
+[x] matrix inverse
+[x] matrix addition/substraction
+[x] matrix multiplication
+[x] matrix transpose
 
 Needs to be supported:
-[ ] Matrix Inverse
-[ ] Matrix Multiplication By Constant? (This technically can be achieved with apply)
+[ ] tbd
 
 ## Other
 
