@@ -9,19 +9,19 @@ matrix.v contains all the functions and structs related to mtrices
 #### Matrix Functionality
 
 Currently Matrix supports:
-[x] Generating Zero Matrices
-[x] Generating Filled Matrices
-[x] Generating Identity Matrices
-[x] Matrix Multiplication
-[x] An Apply Function
-[x] Getting Matrix Determinant
-[x] matrix inverse
-[x] matrix addition/substraction
-[x] matrix multiplication
-[x] matrix transpose
+- [x] Generating Zero Matrices
+- [x] Generating Filled Matrices
+- [x] Generating Identity Matrices
+- [x] Matrix Multiplication
+- [x] An Apply Function
+- [x] Getting Matrix Determinant
+- [x] matrix inverse
+- [x] matrix addition/substraction
+- [x] matrix multiplication
+- [x] matrix transpose
 
 Needs to be supported:
-[ ] tbd
+- [ ] tbd
 
 ## Other
 
