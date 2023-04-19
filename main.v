@@ -34,3 +34,7 @@ mi.print()
 mut msm := numv.scalar_mul(m, 2)
 
 msm.print()
+
+mut mt := numv.transpose(m)
+
+mt.print()

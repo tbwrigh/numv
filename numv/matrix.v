@@ -265,3 +265,26 @@ pub fn scalar_mul (m Matrix, c int) Matrix {
 	cm.scalar_mul(c)
 	return cm
 }
+
+pub fn (mut m Matrix) transpose() {
+	mut rows := m.cols
+	mut cols := m.rows
+
+	mut mx := [][]f64
+
+	for  i in 0..m.cols {
+		mut r := []f64
+		for j in 0..m.rows {
+			r << m.mat[j][i]
+		}
+		mx << r
+	}
+
+	m = generate_matrix(rows, cols, mx)
+}
+
+pub fn transpose(m Matrix) Matrix {
+	mut cm := m.copy()
+	cm.transpose()
+	return cm
+}
