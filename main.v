@@ -29,3 +29,8 @@ println("")
 mut mi := numv.invert_matrix(m)!
 
 mi.print()
+
+
+mut msm := numv.scalar_mul(m, 2)
+
+msm.print()

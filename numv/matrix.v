@@ -233,3 +233,35 @@ pub fn add(mo Matrix, mt Matrix) !Matrix {
 	cmo.add(mt)!
 	return cmo
 }
+
+pub fn (mut m Matrix) sub(mo Matrix) ! {
+	if mo.rows != m.rows || mo.cols != m.cols {
+		return error("Matrices have different Dimensions")
+	}
+
+	for i in 0..m.rows {
+		for j in 0..m.cols {
+			m.mat[i][j] -= mo.mat[i][j]
+		}
+	}
+}
+
+pub fn sub(mo Matrix, mt Matrix) !Matrix {
+	mut cmo := mo.copy()
+	cmo.sub(mt)!
+	return cmo
+}
+
+pub fn (mut m Matrix) scalar_mul(c int) {
+	for i in 0..m.rows {
+		for j in 0..m.cols {
+			m.mat[i][j] *= c
+		}
+	}
+}
+
+pub fn scalar_mul (m Matrix, c int) Matrix {
+	mut cm := m.copy()
+	cm.scalar_mul(c)
+	return cm
+}
