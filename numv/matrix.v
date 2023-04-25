@@ -76,6 +76,21 @@ pub fn identity(dim int) Matrix {
 	return generate_matrix(rows, cols, mx)
 }
 
+pub fn (m Matrix) equals(mo Matrix) bool {
+
+	if m.rows != mo.rows || m.cols != mo.cols {
+		return false
+	}
+
+	for i in 0..(m.rows * m.cols) {
+		if m.mat[i] != mo.mat[i] {
+			return false
+		}
+	}
+
+	return true
+}
+
 pub fn (m Matrix) print() {
 	for i in 0..m.rows {
 		for j in 0..m.cols {
