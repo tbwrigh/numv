@@ -4,7 +4,7 @@ NumV is intended to be the basis of a linear algebra libary for Vlang. The origi
 
 ## Matrix
 
-matrix.v contains all the functions and structs related to mtrices
+matrix.v contains all the functions and structs related to matrices
 
 #### Matrix Functionality
 
@@ -21,7 +21,8 @@ Currently Matrix supports:
 - [x] matrix transpose
 
 Needs to be supported:
-- [ ] tbd
+- [ ] Eigenvalues
+- [ ] Eigenvectors
 
 ## Other
 
