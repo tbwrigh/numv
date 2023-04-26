@@ -25,7 +25,7 @@ jobs:
       #    v fmt -diff .
       #    v fmt -verify .
       - name: Build ${{ github.event.repository.name }}
-        run: v .
+        run: v -shared numv/
 
       - name: Run Tests
-        run: v test .
+        run: v test tests/
