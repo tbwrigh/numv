@@ -57,3 +57,19 @@ fn test_determinant() {
 	assert 5.0 == math.round_sig(m.determinant()!, 3)
 }
 
+fn test_inverse() {
+	m := numv.fill_matrix([4.0,7.0,9.0],[2.0,5.0,8.0],[1.0,3.0,6.0])!
+	r1 := numv.invert_matrix(m)!
+	er1 := numv.fill_matrix([1.2,-3.0,2.2],[-0.8,3.0,-2.8],[0.2,-1.0,1.2])!
+
+	assert r1.equals_tol(er1, 7)
+
+	r2 := numv.invert_matrix(r1)!
+	
+	assert m.equals_tol(r2, 7)
+
+	prod := numv.mul(m,r1)!
+	er3 := numv.identity(3)
+	
+	assert prod.equals_tol(er3, 7)
+}
