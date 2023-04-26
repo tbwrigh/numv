@@ -1,5 +1,7 @@
 import numv
 
+import math
+
 fn test_matrix_equality() {
 	m := numv.fill_matrix([1.0,2.0],[3.0,4.0])!
 
@@ -48,5 +50,10 @@ fn test_apply() {
 	m.apply(fn(i f64) f64 {return i*i*i})
 	er2 := numv.fill_matrix([8.0,0.0,0.0],[0.0,8.0,0.0],[0.0,0.0,8.0])!
 	assert m.equals(er2)
+}
+
+fn test_determinant() {
+	m := numv.fill_matrix([4.0,7.0,9.0],[2.0,5.0,8.0],[1.0,3.0,6.0])!
+	assert 5.0 == math.round_sig(m.determinant()!, 3)
 }
 
