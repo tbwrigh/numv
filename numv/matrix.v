@@ -1,5 +1,7 @@
 module numv
 
+import math
+
 pub struct Matrix {
 pub mut:
 	rows int
@@ -91,6 +93,21 @@ pub fn (m Matrix) equals(mo Matrix) bool {
 	return true
 }
 
+pub fn (m Matrix) equals_tol(mo Matrix, tol int) bool {
+
+	if m.rows != mo.rows || m.cols != mo.cols {
+		return false
+	}
+
+	for i in 0..(m.rows * m.cols) {
+		if math.round_sig(m.mat[i], tol) != math.round_sig(mo.mat[i], tol) {
+			return false
+		}
+	}
+
+	return true
+}
+
 pub fn (m Matrix) print() {
 	for i in 0..m.rows {
 		for j in 0..m.cols {
@@ -117,7 +134,7 @@ pub fn mul(mo Matrix, mt Matrix) !Matrix {
 		for col in 0..cols {
 			mut v := 0.0
 			for i in 0..n {
-				v += mo.mat[row*rows + i] * mt.mat[i*rows + col]
+				v += mo.mat[row*mo.cols + i] * mt.mat[i*mt.cols + col]
 			}
 			mx << v
 		}
@@ -141,11 +158,11 @@ pub fn apply(m Matrix, op fn (f64) f64) Matrix {
 
 
 pub fn (m Matrix) get_value(row int, col int) f64 {
-	return m.mat[row * m.rows + col]
+	return m.mat[row * m.cols + col]
 }
 
 pub fn (mut m Matrix) set_value(row int, col int, value f64) {
-	m.mat[row * m.rows + col] = value
+	m.mat[row * m.cols + col] = value
 }
 
 pub fn (m Matrix) determinant() !f64 {
@@ -159,12 +176,12 @@ pub fn (m Matrix) determinant() !f64 {
 
 	for fd in 0..n {
 		for i in (fd+1)..n {
-			if am.mat[fd * am.rows + fd] == 0 {
-				am.mat[fd * am.rows + fd] = 1.0e-18
+			if am.mat[fd * am.cols + fd] == 0 {
+				am.mat[fd * am.cols + fd] = 1.0e-18
 			}
-			mut cr_scaler := am.mat[i * am.rows +fd] / am.mat[fd * am.rows + fd]
+			mut cr_scaler := am.mat[i * am.cols +fd] / am.mat[fd * am.cols + fd]
 			for j in 0..n {
-				am.mat[i * am.rows + j] = am.mat[i * am.rows + j] - cr_scaler * am.mat[fd * am.rows + j]
+				am.mat[i * am.cols + j] = am.mat[i * am.cols + j] - cr_scaler * am.mat[fd * am.cols + j]
 			}
 		}
 	}
@@ -172,7 +189,7 @@ pub fn (m Matrix) determinant() !f64 {
 	mut product := 1.0
 
 	for i in 0..n {
-		product = product * am.mat[i * am.rows + i]
+		product = product * am.mat[i * am.cols + i]
 	} 
 
 	return product
@@ -199,17 +216,17 @@ pub fn invert_matrix(m Matrix) !Matrix {
 	for fd in 0..n {
 		mut fd_scaler := 1.0 / am.mat[fd * am.rows + fd]
 		for j in 0..n {
-			am.mat[fd * am.rows + j] *= fd_scaler
-			im.mat[fd * im.rows + j] *= fd_scaler
+			am.mat[fd * am.cols + j] *= fd_scaler
+			im.mat[fd * im.cols + j] *= fd_scaler
 		}
 
 		for i in 0..indices.len {
 			if i != fd {
-				mut cr_scaler := am.mat[i * am.rows + fd]
+				mut cr_scaler := am.mat[i * am.cols + fd]
 
 				for j in 0..n {
-					am.mat[i * am.rows + j] = am.mat[i * am.rows + j] - cr_scaler * am.mat[fd * am.rows + j]
-					im.mat[i * im.rows + j] = im.mat[i * im.rows + j] - cr_scaler * im.mat[fd * im.rows + j]
+					am.mat[i * am.cols + j] = am.mat[i * am.cols + j] - cr_scaler * am.mat[fd * am.cols + j]
+					im.mat[i * im.cols + j] = im.mat[i * im.cols + j] - cr_scaler * im.mat[fd * im.cols + j]
 				}
 			}
 		}
@@ -275,7 +292,7 @@ pub fn (mut m Matrix) transpose() {
 
 	for  i in 0..m.cols {
 		for j in 0..m.rows {
-			mx << m.mat[j* m.rows + i]
+			mx << m.mat[j* m.cols + i]
 		}
 	}
 
@@ -296,7 +313,7 @@ pub fn (m Matrix) trace() !f64 {
 	mut tr := 0.0
 
 	for i in 0..m.rows {
-		tr += m.mat[i * m.rows + i]
+		tr += m.mat[i * m.cols + i]
 	}
 
 	return tr
