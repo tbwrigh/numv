@@ -87,3 +87,20 @@ fn test_transpose() {
 
 	assert r2.equals(er2)
 }
+
+fn test_add_sub_scalarmul() {
+	m := numv.fill_matrix([1.0,2.0],[3.0,4.0])!
+	n := numv.fill_matrix([0.0,1.0],[2.0,3.0])!
+
+	r1 := numv.sub(m,n)!
+	er1 := numv.fill_matrix([1.0,1.0],[1.0,1.0])!
+
+	assert r1.equals(er1)
+
+	r2 := numv.add(r1, n)!
+
+	assert m.equals(r2)
+
+	r3 := numv.scalar_mul(m, 3)
+	er3 := numv.fill_matrix([3.0,6.0],[9.0,12.0])!
+}
