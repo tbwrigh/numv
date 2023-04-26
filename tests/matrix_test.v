@@ -73,3 +73,17 @@ fn test_inverse() {
 	
 	assert prod.equals_tol(er3, 7)
 }
+
+fn test_transpose() {
+	m := numv.fill_matrix([1.0,2.0],[3.0,4.0])!
+	r1 := numv.transpose(m)
+	er1 := numv.fill_matrix([1.0,3.0],[2.0,4.0])!
+
+	assert r1.equals(er1)
+
+	n := numv.fill_matrix([1.0,2.0,3.0],[4.0,5.0,6.0])!
+	r2 := numv.transpose(n)
+	er2 := numv.fill_matrix([1.0,4.0],[2.0,5.0],[3.0,6.0])!
+
+	assert r2.equals(er2)
+}
