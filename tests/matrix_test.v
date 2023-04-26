@@ -39,3 +39,14 @@ fn test_matrix_mul_complex() {
 
 	assert r1.equals_tol(er1, 4)
 }
+
+fn test_apply() {
+	mut m := numv.identity(3)
+	m.apply(fn(i f64) f64 {return 2.0 * i})
+	er1 := numv.fill_matrix([2.0,0.0,0.0],[0.0,2.0,0.0],[0.0,0.0,2.0])!
+	assert m.equals(er1)
+	m.apply(fn(i f64) f64 {return i*i*i})
+	er2 := numv.fill_matrix([8.0,0.0,0.0],[0.0,8.0,0.0],[0.0,0.0,8.0])!
+	assert m.equals(er2)
+}
+
